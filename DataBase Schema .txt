@@ -1,0 +1,51 @@
+CREATE DATABASE Gateway ; 
+
+USE Gateway ; 
+
+CREATE TABLE Sensors (
+sensorid INT Primary Key NOT NULL , 
+cp VARCHAR(10) , 
+name VARCHAR (50)
+) ; 
+
+CREATE TABLE Temperature_Sensor (
+sensorid INT NOT NULL ,
+temperature FLOAT NOT NULL , 
+humidty FLOAT NOT NULL , 
+date_time datetime , 
+FOREIGN KEY (sensorid) REFERENCES Sensors(sensorid)
+);
+
+CREATE TABLE Door_Sensor (
+sensorid INT NOT NULL ,
+door_status VARCHAR(20) NOT NULL , 
+date_time datetime ,
+FOREIGN KEY (sensorid) REFERENCES Sensors(sensorid)
+);
+
+CREATE TABLE Smoke_Sensor (
+sensorid INT NOT NULL ,
+fire_status VARCHAR(20) NOT NULL , 
+date_time datetime ,
+FOREIGN KEY (sensorid) REFERENCES Sensors(sensorid)
+);
+
+CREATE TABLE Actuators (
+actuatorid INT Primary Key NOT NULL , 
+cp VARCHAR(10) , 
+name VARCHAR (50)
+) ; 
+
+CREATE TABLE Relay_Switch (
+actuatorid INT NOT NULL ,
+status VARCHAR(20) , 
+date_time datetime ,
+FOREIGN KEY (actuatorid) REFERENCES Actuators(actuatorid)
+);
+
+CREATE TABLE Siren (
+actuatorid INT NOT NULL ,
+status VARCHAR(20) , 
+date_time datetime ,
+FOREIGN KEY (actuatorid) REFERENCES Actuators(actuatorid)
+);

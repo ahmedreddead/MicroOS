@@ -1,0 +1,36 @@
+<video autoplay muted loop style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;">
+  <source src="static/m.mp4" type="video/mp4">
+</video>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Flask App</title>
+</head>
+<body>
+<video id="background-video" autoplay muted style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+  <source src="static/m.mp4" type="video/mp4">
+</video>
+
+<script>
+    setTimeout(function() {
+      window.location.href = "/";
+    }, 13000); // 13 seconds
+  var video = document.getElementById("background-video");
+  video.addEventListener('ended', function() {
+    video.pause();
+  });
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
