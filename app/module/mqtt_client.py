@@ -3,49 +3,44 @@ import uuid
 import paho.mqtt.client as mqtt
 import time
 
-mqttBroker = "10.20.0.31"
+mqttBroker = "micropolis.local"
 port = 1883
+
+client = mqtt.Client("HUB")
+client.connect(mqttBroker, port)
+client.loop_start()
+client.subscribe("#")
 
 def connect_and_send_alarm(payload):
     try:
         topic_sensor_state = "IoT_alarm"
-        client = mqtt.Client("Hub_")
+        global client
         client.connect(mqttBroker,port)
-        client.loop_start()
         client.publish(topic_sensor_state, str(payload))
-        client.loop_stop()
     except :
         pass
 
 def connect_and_send(payload):
     try:
         topic_sensor_state = "IoT_sensor_state"
-        client = mqtt.Client("Hub_")
+        global client
         client.connect(mqttBroker,port)
-        client.loop_start()
         client.publish(topic_sensor_state, str(payload))
-        client.loop_stop()
     except :
         pass
 
 
 def connect_and_send_ras(topic, payload):
     try:
-        client = mqtt.Client("Hub_")
+        global client
         client.connect(mqttBroker,port)
-        client.loop_start()
         client.publish(str(topic), str(payload))
-        client.loop_stop()
     except :
         pass
 def send_mqtt_to_rasberrypi(topic, payload) :
-    mqttBroker = "10.20.0.230"
-    port = 1883
-    client = mqtt.Client("Hub_")
+    global client
     client.connect(mqttBroker, port)
-    client.loop_start()
     client.publish(str(topic), str(payload))
-    client.loop_stop()
 
 def on_message(client, userdata, message):
     print("message received " ,str(message.payload.decode("utf-8")))
@@ -183,12 +178,8 @@ def on_message(client, userdata, message):
         pass
 
 
-client_door_sensor = mqtt.Client("HUB")
-client_door_sensor.connect(mqttBroker, port)
-client_door_sensor.loop_start()
-client_door_sensor.subscribe("#")
-client_door_sensor.on_message = on_message
 
+client.on_message = on_message
 
 while 1 :
-    time.sleep(300)
+    time.sleep(30)
