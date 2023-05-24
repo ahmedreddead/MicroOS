@@ -102,33 +102,45 @@ publish_hum(2)
 
 
 def function_send_all(tempN , MotionN , PolutionN , GlassN , DoorN , SmokeN, PowerN ):
+    try:
+        object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
+        object.connect()
+        for i in range(1,tempN+1) :
+            publish_temp(i,object)
+            time.sleep(0.2)
 
-    object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
-    object.connect()
-    for i in range(1,tempN+1) :
-        publish_temp(i,object)
-
-    for i in range(1,MotionN+1) :
-        publish_motion(i,object)
-
-    for i in range(1,PolutionN+1) :
-        publish_polution(i,object)
-
-    for i in range(1,DoorN+1) :
-        publish_door(i,object)
-
-    for i in range(1,SmokeN+1) :
-        publish_smoke(i,object)
-
-    for i in range(1,PowerN+1) :
-        publish_power(i,object)
-
-    for i in range(1,GlassN+1) :
-        publish_glass(i,object)
+        for i in range(1,MotionN+1) :
+            publish_motion(i,object)
+            time.sleep(0.2)
 
 
-    object.disconnect()
-    threading.Timer(30.0, function_send_all, args=(tempN , MotionN , PolutionN , GlassN , DoorN , SmokeN, PowerN,)).start()
+        for i in range(1,PolutionN+1) :
+            publish_polution(i,object)
+            time.sleep(0.2)
+
+
+        for i in range(1,DoorN+1) :
+            publish_door(i,object)
+            time.sleep(0.2)
+
+
+        for i in range(1,SmokeN+1) :
+            publish_smoke(i,object)
+            time.sleep(0.2)
+
+
+        for i in range(1,PowerN+1) :
+            publish_power(i,object)
+
+        for i in range(1,GlassN+1) :
+            publish_glass(i,object)
+            time.sleep(0.2)
+
+
+        object.disconnect()
+        threading.Timer(30.0, function_send_all, args=(tempN , MotionN , PolutionN , GlassN , DoorN , SmokeN, PowerN,)).start()
+    except :
+        threading.Timer(30.0, function_send_all, args=(tempN , MotionN , PolutionN , GlassN , DoorN , SmokeN, PowerN,)).start()
 
 
 function_send_all (2,3,1,2,4,1,1)
