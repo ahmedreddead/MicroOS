@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: lightblue;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            justify-content: center;
+
+        }
+        .video {
+            width: auto;
+            height: 40vh;
+            margin: 10px;
+            border: 3px solid white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <video class="video" src="static/1.mp4" autoplay muted loop></video>
+        <video class="video" src="static/3.mp4" autoplay muted loop></video>
+        <video class="video" src="static/2.mp4" autoplay muted loop></video>
+        <video class="video" src="static/4.mp4" autoplay muted loop></video>
+    </div>
+</body>
+</html>
