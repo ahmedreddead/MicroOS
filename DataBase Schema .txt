@@ -1,6 +1,9 @@
 CREATE DATABASE Gateway ; 
+GRANT INSERT ON grafanadb.* TO 'grafana'@'%';
 
 USE grafanadb ;
+
+
 
 CREATE TABLE sensors (
 sensorid INT Primary Key NOT NULL , 

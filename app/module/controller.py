@@ -12,7 +12,9 @@ def login():
 @app.route('/video')
 def video():
     return render_template("video.html")
-
+@app.route('/camera')
+def camera():
+    return render_template("camera.html")
 @app.errorhandler(404)
 def notfound(error):
     return render_template("404.html")

@@ -100,7 +100,9 @@ publish_hum(1)
 publish_hum(2)
 
 
+
 def function_send_all(tempN , MotionN , PolutionN , GlassN , DoorN , SmokeN, PowerN ):
+
     object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
     object.connect()
     for i in range(1,tempN+1) :
@@ -120,6 +122,9 @@ def function_send_all(tempN , MotionN , PolutionN , GlassN , DoorN , SmokeN, Pow
 
     for i in range(1,PowerN+1) :
         publish_power(i,object)
+
+    for i in range(1,GlassN+1) :
+        publish_glass(i,object)
 
 
     object.disconnect()
