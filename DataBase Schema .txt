@@ -1,51 +1,81 @@
 CREATE DATABASE Gateway ; 
 
-USE Gateway ; 
+USE grafanadb ;
 
-CREATE TABLE Sensors (
+CREATE TABLE sensors (
 sensorid INT Primary Key NOT NULL , 
 cp VARCHAR(10) , 
 name VARCHAR (50)
 ) ; 
 
-CREATE TABLE Temperature_Sensor (
+CREATE TABLE temperature_sensor (
 sensorid INT NOT NULL ,
 temperature FLOAT NOT NULL , 
 humidty FLOAT NOT NULL , 
 date_time datetime , 
-FOREIGN KEY (sensorid) REFERENCES Sensors(sensorid)
+FOREIGN KEY (sensorid) REFERENCES sensors(sensorid)
 );
 
-CREATE TABLE Door_Sensor (
+CREATE TABLE door_sensor (
 sensorid INT NOT NULL ,
 door_status VARCHAR(20) NOT NULL , 
 date_time datetime ,
-FOREIGN KEY (sensorid) REFERENCES Sensors(sensorid)
+FOREIGN KEY (sensorid) REFERENCES sensors(sensorid)
 );
 
-CREATE TABLE Smoke_Sensor (
+CREATE TABLE smoke_sensor (
 sensorid INT NOT NULL ,
 fire_status VARCHAR(20) NOT NULL , 
 date_time datetime ,
-FOREIGN KEY (sensorid) REFERENCES Sensors(sensorid)
+FOREIGN KEY (sensorid) REFERENCES sensors(sensorid)
 );
 
-CREATE TABLE Actuators (
+CREATE TABLE actuators (
 actuatorid INT Primary Key NOT NULL , 
 cp VARCHAR(10) , 
 name VARCHAR (50)
 ) ; 
 
-CREATE TABLE Relay_Switch (
+CREATE TABLE relay_switch (
 actuatorid INT NOT NULL ,
 status VARCHAR(20) , 
 date_time datetime ,
-FOREIGN KEY (actuatorid) REFERENCES Actuators(actuatorid)
+FOREIGN KEY (actuatorid) REFERENCES actuators(actuatorid)
 );
 
-CREATE TABLE Siren (
+CREATE TABLE siren (
 actuatorid INT NOT NULL ,
 status VARCHAR(20) , 
 date_time datetime ,
-FOREIGN KEY (actuatorid) REFERENCES Actuators(actuatorid)
+FOREIGN KEY (actuatorid) REFERENCES actuators(actuatorid)
+);
+
+
+
+
+
+CREATE TABLE motion_sensor (
+sensorid INT NOT NULL ,
+motion_status VARCHAR(20) NOT NULL ,
+date_time datetime ,
+FOREIGN KEY (sensorid) REFERENCES sensors(sensorid)
+);
+
+CREATE TABLE glass_sensor (
+sensorid INT NOT NULL ,
+glass_status VARCHAR(20) NOT NULL ,
+date_time datetime ,
+FOREIGN KEY (sensorid) REFERENCES sensors(sensorid)
+);
+
+CREATE TABLE polution_sensor (
+sensorid INT NOT NULL ,
+polution FLOAT NOT NULL ,
+date_time datetime ,
+FOREIGN KEY (sensorid) REFERENCES sensors(sensorid)
+);
+
+CREATE TABLE power (
+power FLOAT NOT NULL ,
+date_time datetime
 );

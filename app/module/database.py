@@ -72,7 +72,7 @@ class Database :
     def insert_temperature_sensor_reading(self,sensorid,temp,hum,datetime):
         try:
             cursor = self.connection.cursor()
-            command = """INSERT INTO temperature_sensor(sensorid,temp,hum,datetime) VALUES (%s,%s,%s,%s)"""
+            command = """INSERT INTO temperature_sensor(sensorid,temperature,humidty,date_time) VALUES (%s,%s,%s,%s)"""
             records_to_insert = (sensorid,temp,hum,datetime)
             cursor.execute(command, records_to_insert)
             self.connection.commit()
@@ -83,7 +83,7 @@ class Database :
     def insert_door_sensor_reading(self,sensorid,status,datetime):
         try:
             cursor = self.connection.cursor()
-            command = """INSERT INTO door_sensor(sensorid,status,datetime) VALUES (%s,%s,%s)"""
+            command = """INSERT INTO door_sensor(sensorid,door_status,date_time) VALUES (%s,%s,%s)"""
             records_to_insert = (sensorid,status,datetime)
             cursor.execute(command, records_to_insert)
             self.connection.commit()
@@ -94,14 +94,53 @@ class Database :
     def insert_smoke_sensor_reading(self,sensorid,status,datetime):
         try:
             cursor = self.connection.cursor()
-            command = """INSERT INTO smoke_sensor(sensorid,status,datetime) VALUES (%s,%s,%s)"""
+            command = """INSERT INTO smoke_sensor(sensorid,fire_status,date_time) VALUES (%s,%s,%s)"""
             records_to_insert = (sensorid,status,datetime)
             cursor.execute(command, records_to_insert)
             self.connection.commit()
         except mysql.connector.Error as error:
             print("Failed to insert into MySQL table {}".format(error))
             return error
-
+    def insert_glass_sensor_reading(self,sensorid,status,datetime):
+        try:
+            cursor = self.connection.cursor()
+            command = """INSERT INTO glass_sensor(sensorid,glass_status,date_time) VALUES (%s,%s,%s)"""
+            records_to_insert = (sensorid,status,datetime)
+            cursor.execute(command, records_to_insert)
+            self.connection.commit()
+        except mysql.connector.Error as error:
+            print("Failed to insert into MySQL table {}".format(error))
+            return error
+    def insert_motion_sensor_reading(self,sensorid,status,datetime):
+        try:
+            cursor = self.connection.cursor()
+            command = """INSERT INTO motion_sensor(sensorid,motion_status,date_time) VALUES (%s,%s,%s)"""
+            records_to_insert = (sensorid,status,datetime)
+            cursor.execute(command, records_to_insert)
+            self.connection.commit()
+        except mysql.connector.Error as error:
+            print("Failed to insert into MySQL table {}".format(error))
+            return error
+    def insert_polution_sensor_reading(self,sensorid,polution,datetime):
+        try:
+            cursor = self.connection.cursor()
+            command = """INSERT INTO polution_sensor(sensorid,polution,date_time) VALUES (%s,%s,%s)"""
+            records_to_insert = (sensorid,polution,datetime)
+            cursor.execute(command, records_to_insert)
+            self.connection.commit()
+        except mysql.connector.Error as error:
+            print("Failed to insert into MySQL table {}".format(error))
+            return error
+    def insert_power_reading(self,power,datetime):
+        try:
+            cursor = self.connection.cursor()
+            command = """INSERT INTO power(power,date_time) VALUES (%s,%s)"""
+            records_to_insert = (power,datetime)
+            cursor.execute(command, records_to_insert)
+            self.connection.commit()
+        except mysql.connector.Error as error:
+            print("Failed to insert into MySQL table {}".format(error))
+            return error
     def insert_relay_switch_reading(self,actuatorid,status,datetime):
         try:
             cursor = self.connection.cursor()
