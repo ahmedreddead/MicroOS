@@ -46,6 +46,12 @@ class Database :
             if self.connection.is_connected():
                 self.connection.close()
                 print("MySQL connection is closed")
+    def ckeck_connection (self):
+
+            if self.connection.is_connected():
+                return True
+            else:
+                return False
 
     def insert_new_sensor(self,sensorid,cp,name):
         try:
