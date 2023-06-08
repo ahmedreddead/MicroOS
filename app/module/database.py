@@ -144,7 +144,7 @@ class Database :
     def insert_relay_switch_reading(self,actuatorid,status,datetime):
         try:
             cursor = self.connection.cursor()
-            command = """INSERT INTO relay_switch(actuatorid,status,datetime) VALUES (%s,%s,%s)"""
+            command = """INSERT INTO relay_switch(actuatorid,status,date_time) VALUES (%s,%s,%s)"""
             records_to_insert = (actuatorid,status,datetime)
             cursor.execute(command, records_to_insert)
             self.connection.commit()
@@ -155,10 +155,36 @@ class Database :
     def insert_siren_reading(self,actuatorid,status,datetime):
         try:
             cursor = self.connection.cursor()
-            command = """INSERT INTO siren(actuatorid,status,datetime) VALUES (%s,%s,%s)"""
+            command = """INSERT INTO siren(actuatorid,status,date_time) VALUES (%s,%s,%s)"""
             records_to_insert = (actuatorid,status,datetime)
             cursor.execute(command, records_to_insert)
             self.connection.commit()
+        except mysql.connector.Error as error:
+            print("Failed to insert into MySQL table {}".format(error))
+            return error
+
+    def check_sensorid(self,sensorid):
+        try:
+            cursor = self.connection.cursor()
+            # Check if the sensor ID already exists in the sensors table
+            check_query = "SELECT * FROM sensors WHERE sensorid = %s"
+            cursor.execute(check_query, (sensorid,))
+            result = cursor.fetchone()
+            #self.connection.commit()
+            return result
+        except mysql.connector.Error as error:
+            print("Failed to insert into MySQL table {}".format(error))
+            return error
+
+    def check_actuatorid(self,actuatorid):
+        try:
+            cursor = self.connection.cursor()
+            # Check if the sensor ID already exists in the sensors table
+            check_query = "SELECT * FROM actuators WHERE actuatorid = %s"
+            cursor.execute(check_query, (actuatorid,))
+            result = cursor.fetchone()
+            #self.connection.commit()
+            return result
         except mysql.connector.Error as error:
             print("Failed to insert into MySQL table {}".format(error))
             return error
