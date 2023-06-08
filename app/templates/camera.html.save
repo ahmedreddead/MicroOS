@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html>
-    
 <head>
-   
-    <!-- Vendor CSS Files -->
-    
-    <link href="static/css/style.css" rel="stylesheet">
-    <link href="static/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
+<header id="header" class="d-flex flex-column justify-content-center">
+
+        <nav id="navbar" class="navbar nav-menu">
+            <ul>
+                <li>
+                <a onclick="showWebsite1()" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a>
+                </li>
+                <li>
+                <a href="http://micropolis.local:3000/d/bfe875a4-8753-4cc0-88b8-c57811f1bac7/new-dashboard?orgId=1&refresh=10s" target=">
+                </li>
+                <li>
+                 <a onclick="showWebsite3()" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Camera</span></a>
+                </li>
+
+            </ul>
+        </nav><!-- .nav-menu -->
+
+    </header><!-- End Header -->
+
     <style>
         body {
             background-color: lightblue;
@@ -18,17 +31,6 @@
             padding: 15px;
             justify-content: center;
         }
-	.fancy-button {
- 	    display: inline-block;
-  	    padding: 8px 16px;
-  	    background-color: #007bff;
-  	    color: white;
-  	    text-decoration: none;
-  	    font-size: 14px;
-  	    border-radius: 12px;
-  	    position: absolute;
-  	    left: 0;
-	}
         .video {
             width: auto ;
             height: 40vh;
@@ -71,14 +73,14 @@
     </style>
 </head>
 <body>
+
+
     <div class="loading">
         <div class="loading-dot"></div>
         <div class="loading-dot"></div>
         <div class="loading-dot"></div>
     </div>
     <div class="container">
-       <a href="http://micropolis.local:5000/" class="fancy-button">Return</a>
-
         <video class="video" src="static/1.mp4" controls autoplay muted loop></video>
         <video class="video" src="static/3.mp4" controls autoplay muted loop></video>
         <video class="video" src="static/2.mp4" controls autoplay muted loop></video>
