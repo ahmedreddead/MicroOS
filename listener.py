@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 import time
 import datetime
 import re
-from MicroOs.app.module import database
+from app.module import database
 
 mqttBroker = "micropolis.local"
 port = 1883
@@ -12,7 +12,7 @@ program = 0
 client_door_sensor = ""
 while program == 0:
     try : 
-        client_door_sensor = mqtt.Client("HUB20")
+        client_door_sensor = mqtt.Client("HUB200")
         client_door_sensor.connect(mqttBroker, port)
         client_door_sensor.loop_start()
         client_door_sensor.subscribe("#")
@@ -20,7 +20,11 @@ while program == 0:
     except :
         pass
 
-print ("successfully conected")
+print ("mqtt successfully conected")
+object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
+object.connect()
+
+print ("database successfully conected")
 
 """
 
@@ -52,6 +56,8 @@ mqtt:
 
 
 """
+
+
 def str_to_int_or_ascii(string):
     try:
         return int(string)
@@ -67,7 +73,6 @@ def connect_and_send_alarm(payload):
         client.loop_stop()
     except :
         pass
-
 def connect_and_send(payload):
     try:
         topic_sensor_state = "IoT_sensor_state"
@@ -79,8 +84,6 @@ def connect_and_send(payload):
         client.loop_stop()
     except :
         pass
-
-
 def connect_and_send_with_topic(topic , payload):
     try:
         client = mqtt.Client("Hub_new")
@@ -95,8 +98,8 @@ def send_mqtt_to_rasberrypi(topic, payload) :
     global client_door_sensor
 
     client_door_sensor.publish(str(topic), str(payload))
-
 def on_message(client, userdata, message):
+    global object
     #print("message received " ,str(message.payload.decode("utf-8")))
     #print("message topic=",message.topic)
     try:
@@ -134,8 +137,10 @@ def on_message(client, userdata, message):
             send_mqtt_to_rasberrypi('Micropolis/door_sensor/9985/status',str(status))
 
             ## database insertion
-            object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
-            object.connect()
+
+            if not object.ckeck_connection():
+                object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
+                object.connect()
 
 
             if len(str (str_to_int_or_ascii(_id)) ) > 5 :
@@ -147,8 +152,7 @@ def on_message(client, userdata, message):
                 object.insert_new_sensor(str_to_int_or_ascii(_id) ,"wifi" , "micropolis door sensor")
 
             object.insert_door_sensor_reading(str_to_int_or_ascii(_id), str(status), datetime.datetime.now())
-            object.disconnect()
-
+            ##object.disconnect()
 
         elif message.topic == "Micropolis/panic_sensor" :
             payload = str(message.payload.decode("utf-8")).strip()
@@ -185,8 +189,9 @@ def on_message(client, userdata, message):
             #connect_and_send_with_topic(str(send_topic2), str(_status))
 
 
-            object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
-            object.connect()
+            if not object.ckeck_connection():
+                object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
+                object.connect()
             print(str_to_int_or_ascii(_id))
 
             if len(str (str_to_int_or_ascii(_id)) ) > 5 :
@@ -198,7 +203,7 @@ def on_message(client, userdata, message):
                 object.insert_new_actuator(str_to_int_or_ascii(_id), "wifi", "micropolis siren ")
 
             object.insert_siren_reading(str_to_int_or_ascii(_id), str(status), datetime.datetime.now())
-            object.disconnect()
+            #object.disconnect()
 
         elif message.topic == "Micropolis/switch" :
             topic = 0
@@ -224,15 +229,16 @@ def on_message(client, userdata, message):
             #send_topic2 = "Micropolis/" + str(topic) + "/" + str(_id) + "/status"
             #connect_and_send_with_topic(str(send_topic2), str(_status))
 
-            object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
-            object.connect()
+            if not object.ckeck_connection():
+                object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
+                object.connect()
 
             result = object.check_actuatorid(str_to_int_or_ascii(_id))
             if result is None:
                 object.insert_new_actuator(str_to_int_or_ascii(_id) ,"wifi" , "micropolis switch ")
 
             object.insert_relay_switch_reading(str_to_int_or_ascii(_id), str(status), datetime.datetime.now())
-            object.disconnect()
+            #object.disconnect()
 
         elif message.topic == "Micropolis/motion_sensor" :
             topic = 3
@@ -266,8 +272,9 @@ def on_message(client, userdata, message):
             #connect_and_send_with_topic(str(send_topic2), str(_status))
 
 
-            object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
-            object.connect()
+            if not object.ckeck_connection():
+                object = database.Database("micropolis.local", 3306, "grafana", "pwd123", "grafanadb")
+                object.connect()
 
 
             if len(str (str_to_int_or_ascii(_id)) ) > 5 :
@@ -281,7 +288,7 @@ def on_message(client, userdata, message):
             time.sleep(3)
             object.insert_motion_sensor_reading(str_to_int_or_ascii(_id), str("No Motion"), datetime.datetime.now())
 
-            object.disconnect()
+            #object.disconnect()
 
 
         elif str (message.topic).startswith("Micropolis/0/") :
