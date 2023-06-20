@@ -82,3 +82,34 @@ CREATE TABLE power (
 power FLOAT NOT NULL ,
 date_time datetime
 );
+
+-- New table: users
+CREATE TABLE users (
+  id INT PRIMARY KEY NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  password VARCHAR(50) NOT NULL
+);
+
+-- New table: dashboards
+CREATE TABLE dashboards (
+  id INT PRIMARY KEY NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  user_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+-- New table: dashboard_sensors
+CREATE TABLE dashboard_sensors (
+  dashboard_id INT NOT NULL,
+  sensor_id INT NOT NULL,
+  FOREIGN KEY (dashboard_id) REFERENCES dashboards (id),
+  FOREIGN KEY (sensor_id) REFERENCES sensors (sensorid)
+);
+
+-- New table: dashboard_actuators
+CREATE TABLE dashboard_actuators (
+  dashboard_id INT NOT NULL,
+  actuator_id INT NOT NULL,
+  FOREIGN KEY (dashboard_id) REFERENCES dashboards (id),
+  FOREIGN KEY (actuator_id) REFERENCES actuators (actuatorid)
+);
