@@ -113,3 +113,14 @@ CREATE TABLE dashboard_actuators (
   FOREIGN KEY (dashboard_id) REFERENCES dashboards (id),
   FOREIGN KEY (actuator_id) REFERENCES actuators (actuatorid)
 );
+
+-- Add unique constraint to dashboard_actuators table
+ALTER TABLE dashboard_actuators
+ADD CONSTRAINT unique_dashboard_actuator
+UNIQUE (dashboard_id, actuator_id);
+
+-- Add unique constraint to dashboard_sensors table
+ALTER TABLE dashboard_sensors
+ADD CONSTRAINT unique_dashboard_sensor
+UNIQUE (dashboard_id, sensor_id);
+
