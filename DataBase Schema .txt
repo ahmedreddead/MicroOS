@@ -124,3 +124,12 @@ ALTER TABLE dashboard_sensors
 ADD CONSTRAINT unique_dashboard_sensor
 UNIQUE (dashboard_id, sensor_id);
 
+CREATE TABLE dashboard_items (
+  dashboard_id INT NOT NULL,
+  item_id INT NOT NULL,
+  partition_id VARCHAR(50) NOT NULL,
+  item_type VARCHAR(50) NOT NULL,
+  PRIMARY KEY (dashboard_id, item_id),
+  FOREIGN KEY (dashboard_id) REFERENCES dashboards (id)
+);
+
