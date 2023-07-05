@@ -133,3 +133,9 @@ CREATE TABLE dashboard_items (
   FOREIGN KEY (dashboard_id) REFERENCES dashboards (id)
 );
 
+ALTER TABLE dashboard_items
+ADD COLUMN user_id INT,
+ADD CONSTRAINT fk_user_id
+FOREIGN KEY (user_id) REFERENCES users (id);
+
+
