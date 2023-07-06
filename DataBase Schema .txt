@@ -138,4 +138,40 @@ ADD COLUMN user_id INT,
 ADD CONSTRAINT fk_user_id
 FOREIGN KEY (user_id) REFERENCES users (id);
 
+-- Create a trigger on sensors table
+DELIMITER //
+
+CREATE TRIGGER check_sensor_actuator_id
+BEFORE INSERT ON sensors
+FOR EACH ROW
+BEGIN
+  IF EXISTS (
+    SELECT *
+    FROM actuators
+    WHERE actuatorid = NEW.sensorid
+  ) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'sensorid and actuatorid cannot have the same value.';
+  END IF;
+END//
+
+DELIMITER ;
+
+-- Create a trigger on actuators table
+DELIMITER //
+
+CREATE TRIGGER check_actuator_sensor_id
+BEFORE INSERT ON actuators
+FOR EACH ROW
+BEGIN
+  IF EXISTS (
+    SELECT *
+    FROM sensors
+    WHERE sensorid = NEW.actuatorid
+  ) THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'sensorid and actuatorid cannot have the same value.';
+  END IF;
+END//
+
+DELIMITER ;
+
 
