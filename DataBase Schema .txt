@@ -1,5 +1,6 @@
 CREATE DATABASE Gateway ; 
 GRANT INSERT ON grafanadb.* TO 'grafana'@'%';
+GRANT TRIGGER ON grafanadb.* TO 'grafana'@'%';
 
 USE grafanadb ;
 
